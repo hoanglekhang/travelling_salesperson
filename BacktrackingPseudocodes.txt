@@ -1,0 +1,27 @@
+# BACKTRACKING ALGORITHM
+Define global variables for tracking the best tour and its distance
+best_tour = None
+best_distance = float('inf')
+
+Main function to kickstart the TSP backtracking algorithm
+Define tsp_backtrack(name_file, distance_file):
+    - Read cities from name_file into 'cities'
+    - Read distances from distance_file into 'distances'
+    - Set 'start_city' to the first city (index 0)
+    - Set 'remaining_cities' to all cities except the start city (index 1 through end)
+    - Call tsp_recursion with 'start_city', 'remaining_cities', and 'distances'
+    - Print the best tour found and its total distance
+
+Recursive function to explore all possible tours
+Define tsp_recursion(partial_tour, remaining_cities, distances):
+    - Use global variables 'best_tour' and 'best_distance'
+    - If there are no remaining cities:
+        - Calculate the distance of the partial tour
+        - If this distance is less than 'best_distance':
+            - Update 'best_distance' with this new distance
+            - Update 'best_tour' with the current 'partial_tour' plus the start city at the end
+        - Return from the function
+    - For each city 'next_city' in 'remaining_cities':
+        - If the partial tour is empty or 'next_city' > the last city in 'partial_tour' (to avoid flips and redundant solutions):
+            - Call tsp_recursion with the updated partial tour and remaining cities
+PRINT best tour, total distance

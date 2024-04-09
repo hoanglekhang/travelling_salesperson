@@ -1,0 +1,102 @@
+
+INPUT: A file containing the names of cities and a file containing the distances bt each pair of cities  
+OUTPUT: The shortest tour and total distance of this tour  
+
+Function to read city names from a file
+Define read_names(name_file):
+    - Initialize an empty list 'cities'
+    - Open 'name_file' for reading
+    - For each line in the file:
+        - Strip the line and add it to 'cities'
+    - Return 'cities'
+
+Function to read distances from a file and organize them in a dictionary
+Define read_distances(distance_file):
+    - Initialize an empty list 'distances'
+    - Open 'distance_file' for reading
+    - For each line in the file:
+        - Initialize an empty list 'line_distances'
+        - Split the line into distances and convert each to float, adding to 'line_distances'
+        - Add 'line_distances' to 'distances'
+    - Return 'distances'
+
+Function to calculate the total distance of a given tour
+Define calculate_tour_distance(tour, distances):
+    - Initialize 'total_distance' to 0
+    - For each index 'i' in the range of the length of 'tour' - 1:
+        - Add the distance from 'tour[i]' to 'tour[i+1]' to 'total_distance'
+    - Add the distance from the last city back to the first city to 'total_distance'
+    - Return 'total_distance'
+
+
+# GREEDY ALGORITHM
+Initialize bestTour as an empty list  
+Initialize bestDistance as infinity  
+    FOR each city as startCity in names:  
+    Initialize currentTour with startCity  
+    Initialize unvisited cities list excluding startCity  
+    WHILE there are unvisited cities:  
+        Set nearestCityDistance as infinity  
+        Set nearestCity as None  
+        FOR each candidateCity in unvisited cities:  
+            Calculate distance from the last city in currentTour to candidateCity  
+            IF this distance < nearestCityDistance THEN  
+                Update nearestCityDistance with this distance  
+                Update nearestCity with candidateCity  
+        Add nearestCity to currentTour  
+        Remove nearestCity from unvisited cities  
+    Add startCity to the end of currentTour to complete the loop  
+    Calculate the total distance of currentTour  
+    IF total distance of currentTour < bestDistance THEN  
+        Update bestDistance with the total distance of currentTour  
+        Update bestTour with currentTour  
+PRINT bestTour and bestDistance
+
+# EVOLUTIONARY ALGORITHM
+Initialize the best solution (best_solution) with a simple TSP solution (e.g., sequential order of cities)
+Calculate the distance of the initial best solution (best_distance)
+Set stagnations to 0
+Initialize an empty list to track stagnation results (not explicitly used in provided code)
+While stagnations < 5:
+    Generate a new solution by mutating the current best solution (swap two random cities in best_solution)
+    Calculate the distance of the new solution
+    If the distance of the new solution is less than best_distance:
+        Update best_solution with the new solution
+        Update best_distance with the distance of the new solution
+        Reset stagnations to 0
+    Else:
+        Increment stagnations
+        If stagnations == 5:
+            Mutate the current best solution three times to attempt to escape the local optimum
+            Reset stagnations to 1 or 0 based on whether a better solution is found during mutations
+            Update best_solution and best_distance if a better solution is found during mutations
+Convert the best_solution indices to city names (best_tour_names) including the start city at the end
+Print the best_tour_names and best_distance
+
+# BACKTRACKING ALGORITHM
+Define global variables for tracking the best tour and its distance
+best_tour = None
+best_distance = float('inf')
+
+Main function to kickstart the TSP backtracking algorithm
+Define tsp_backtrack(name_file, distance_file):
+    - Read cities from name_file into 'cities'
+    - Read distances from distance_file into 'distances'
+    - Set 'start_city' to the first city (index 0)
+    - Set 'remaining_cities' to all cities except the start city (index 1 through end)
+    - Call tsp_recursion with 'start_city', 'remaining_cities', and 'distances'
+    - Print the best tour found and its total distance
+
+Recursive function to explore all possible tours
+Define tsp_recursion(partial_tour, remaining_cities, distances):
+    - Use global variables 'best_tour' and 'best_distance'
+    - If there are no remaining cities:
+        - Calculate the distance of the partial tour
+        - If this distance is less than 'best_distance':
+            - Update 'best_distance' with this new distance
+            - Update 'best_tour' with the current 'partial_tour' plus the start city at the end
+        - Return from the function
+    - For each city 'next_city' in 'remaining_cities':
+        - If the partial tour is empty or 'next_city' > the last city in 'partial_tour' (to avoid flips and redundant solutions):
+            - Call tsp_recursion with the updated partial tour and remaining cities
+PRINT best tour, total distance

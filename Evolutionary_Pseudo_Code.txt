@@ -1,0 +1,20 @@
+# EVOLUTIONARY ALGORITHM
+Initialize the best solution (best_solution) with a simple TSP solution (e.g., sequential order of cities)
+Calculate the distance of the initial best solution (best_distance)
+Set stagnations to 0
+Initialize an empty list to track stagnation results (not explicitly used in provided code)
+While stagnations < 5:
+    Generate a new solution by mutating the current best solution (swap two random cities in best_solution)
+    Calculate the distance of the new solution
+    If the distance of the new solution is less than best_distance:
+        Update best_solution with the new solution
+        Update best_distance with the distance of the new solution
+        Reset stagnations to 0
+    Else:
+        Increment stagnations
+        If stagnations == 5:
+            Mutate the current best solution three times to attempt to escape the local optimum
+            Reset stagnations to 1 or 0 based on whether a better solution is found during mutations
+            Update best_solution and best_distance if a better solution is found during mutations
+Convert the best_solution indices to city names (best_tour_names) including the start city at the end
+Print the best_tour_names and best_distance
